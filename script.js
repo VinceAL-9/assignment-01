@@ -1,4 +1,6 @@
 
+
+
 const $id = (id) => document.getElementById(id);
 
 const amountInput = $id('amount_input');
@@ -85,6 +87,15 @@ function renderUsers(users, nameDisplay) {
     users.forEach(user => {
         const rowDiv = document.createElement('div');
         rowDiv.className = 'row mb-2';
+        
+        // add modal toggling to each row
+        const newModal = new bootstrap.Modal(document.getElementById('userDescriptionModal'));
+
+        // Open modal on double-click
+        rowDiv.addEventListener('dblclick', (event) => {
+            event.preventDefault();
+            newModal.show();
+        });
 
         const nameCol = document.createElement('div');
         nameCol.className = 'col-md-3 text-center';
