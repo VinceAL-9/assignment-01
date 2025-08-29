@@ -104,8 +104,114 @@
 
                     <!-- Footer -->
                     <div class="modal-footer border-0 d-flex justify-content-end bg-transparent">
+                        <button type="button" class="btn btn-warning" id="modifyUser">Modify User</button>
                         <button type="button" class="btn btn-danger" id="deleteUser">Delete User</button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal for Modifying User Information -->
+        <div class="modal fade" id="editUserDescModal" tabindex="-1" aria-labelledby="editUserDescModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;">
+                <div class="modal-content" style="background-color: gray; border-radius: 20px; padding: 30px;">
+
+                    <!-- Header -->
+                    <div class="modal-header border-0 d-flex justify-content-center bg-transparent">
+                        <!-- edit modal header-->
+                        <div class="d-flex align-items-center justify-content-center border rounded-pill"
+                            style="background: white; color: black;">
+                            <h1 class="p-4 fw-semibold">Edit User Information</h1>
+                        </div>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body text-center">
+
+                        <!-- Title -->
+                        <div class="mb-3 mx-auto border rounded-pill p-3 d-flex align-items-center justify-content-center"
+                            style="background: #f8f8f8; max-width: 60%;">
+                            <form style="width: 100%;">
+                                <input style="width: 100%; border: none;" type="text" id="editTitle" name="editTitle" placeholder="Enter New Title">
+                            </form>
+                        </div>
+
+
+                        <!-- First Name -->
+                        <div class="mb-3 mx-auto border rounded-pill p-3 d-flex align-items-center justify-content-center"
+                            style="background: #f8f8f8; max-width: 60%;">
+                            <form style="width: 100%;">
+                                <input style="width: 100%; border: none;" type="text" id="editFirstName" name="editFirstName" placeholder="Enter New First Name">
+                            </form>
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="mb-3 mx-auto border rounded-pill p-3 d-flex align-items-center justify-content-center"
+                            style="background: #f8f8f8; max-width: 60%;">
+                            <form style="width: 100%;">
+                                <input style="width: 100%; border: none;" type="text" id="editLastName" name="editLastName" placeholder="Enter New Last Name">
+                            </form>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="mb-3 mx-auto border rounded-pill p-3 d-flex align-items-center justify-content-center"
+                            style="background: #f8f8f8; max-width: 70%;">
+                            <form style="width: 100%;">
+                                <input style="width: 100%; border: none;" type="text" id="editAddress" name="editAddress" placeholder="Enter New Address">
+                            </form>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3 mx-auto border rounded-pill p-3 d-flex align-items-center justify-content-center"
+                            style="background: #f8f8f8; max-width: 70%;">
+                            <form style="width: 100%;">
+                                <input style="width: 100%; border: none;" type="email" id="editEmail" name="editEmail" placeholder="Enter New Email">
+                            </form>
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div class="mb-3 mx-auto border rounded-pill p-3 d-flex align-items-center justify-content-center"
+                            style="background: #f8f8f8; max-width: 70%;">
+                            <form style="width: 100%;">
+                                <input style="width: 100%; border: none;" type="tel" id="editPhone" name="editPhone" placeholder="Enter New Phone Number">
+                            </form>
+                        </div>
+
+                        <!-- Telephone Number -->
+                        <div class="mb-3 mx-auto border rounded-pill p-3 d-flex align-items-center justify-content-center"
+                            style="background: #f8f8f8; max-width: 70%;">
+                            <form style="width: 100%;">
+                                <input style="width: 100%; border: none;" type="tel" id="editTelephone" name="editTelephone" placeholder="Enter New Telephone Number">
+                            </form>
+                        </div>
+
+                        <!-- Date of Birth -->
+                        <div class="mb-3 mx-auto border rounded-pill p-3 d-flex align-items-center justify-content-center"
+                            style="background: #f8f8f8; max-width: 70%;">
+                            <form style="width: 100%;">
+                                <input style="width: 100%; border: none;" type="date" id="editDob" name="editDob">
+                            </form>
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="mb-3 mx-auto border rounded-pill p-3 d-flex align-items-center justify-content-center"
+                            style="background: #f8f8f8; max-width: fit-content;">
+                            <form style="width: 100%;">
+                                <select style="width: 100%; border: none;"id="editGender" name="editGender">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer border-0 d-flex justify-content-end bg-transparent">
+                        <button type="button" class="btn btn-danger" id="cancel">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="save">Save Changes</button>
+                    </div>
+                
                 </div>
             </div>
         </div>

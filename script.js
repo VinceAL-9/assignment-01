@@ -1,6 +1,3 @@
-
-
-
 const $id = (id) => document.getElementById(id);
 
 const amountInput = $id('amount_input');
@@ -13,7 +10,10 @@ const minUsers = 0;
 const timeout = 3000; // 3 seconds
 
 
-let currentUsers;  //  store fetched users for name switching functionality
+let currentUsers;  //  store fetched users for name switching functionality and deleting a user
+let newData; // store edited user data
+
+
 
 // Main event listeners
 amountInput.addEventListener('keypress', async (event) => {
@@ -22,8 +22,9 @@ amountInput.addEventListener('keypress', async (event) => {
         await generateUsers();
     }
 });
-sortBySelect.addEventListener('change', () => {
+sortBySelect.addEventListener('change', (event) => {
     if (currentUsers.length > 0) {
+        event.preventDefault();
         renderUsers(currentUsers, sortBySelect.value);
     }
 });
@@ -68,6 +69,7 @@ function deleteUserFromList(list, user){
     }
 }
 
+
 // Fetch random users from API with error handling
 async function fetchRandomUsers(count) {
     try {
@@ -99,10 +101,11 @@ function renderUsers(users, nameDisplay) {
         rowDiv.className = 'row mb-2';
         
         // add modal toggling to each row
-        const separateModal = new bootstrap.Modal(document.getElementById('userDescriptionModal'));
+        const separateModal = new bootstrap.Modal($id('userDescriptionModal'));
 
         // Open modal on double-click, complete with user information
         rowDiv.addEventListener('dblclick', (event) => {
+            letcurrentUser = user
             event.preventDefault();
             
             let info = {
@@ -126,13 +129,35 @@ function renderUsers(users, nameDisplay) {
             $id('modalDob').textContent = info.dateOfBirth;
             $id('modalGender').textContent = info.gender;
             
+            const modifyUserButton = $id('modifyUser');
+            modifyUserButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    separateModal.hide();
+                    
+                    const editUserModal = new bootstrap.Modal($id("editUserDescModal"));
+                    editUserModal.show();
+                    
+                    const cancelButton = $id('cancel');
+                    cancelButton.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        editUserModal.hide();
+                        separateModal.show();
+                    })
+                    
+                    const saveButton = $id('save');
+                    saveButton.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        editUserModal.hide();
+
+                    })
+                })
+
             const deleteUserButton = $id('deleteUser');
             deleteUserButton.addEventListener('click', (event) => {
                     event.preventDefault();
                     deleteUserFromList(currentUsers, $id('modalName').textContent);
                     separateModal.hide();
                 })
-
             separateModal.show();
         });
 
@@ -154,6 +179,7 @@ function renderUsers(users, nameDisplay) {
         const countryCol = document.createElement('div');
         countryCol.className = 'col-md-3 text-center';
         countryCol.textContent = user.location.country;
+
 
         rowDiv.appendChild(nameCol);
         rowDiv.appendChild(genderCol);
