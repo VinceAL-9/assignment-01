@@ -59,6 +59,15 @@ async function generateUsers() {
     }
 }
 
+// delete a user from row at the click of a button
+function deleteUserFromList(list, user){
+    const index = list.findIndex(u => u.name.title + " " + u.name.first + " " + u.name.last === user);
+    if (index !== -1) {
+        list.splice(index, 1);
+        renderUsers(list);
+    }
+}
+
 // Fetch random users from API with error handling
 async function fetchRandomUsers(count) {
     try {
@@ -83,6 +92,7 @@ async function fetchRandomUsers(count) {
 // Display users
 function renderUsers(users, nameDisplay) {
     clearUserRows();  // Remove existing rows
+
 
     users.forEach(user => {
         const rowDiv = document.createElement('div');
@@ -116,7 +126,13 @@ function renderUsers(users, nameDisplay) {
             $id('modalDob').textContent = info.dateOfBirth;
             $id('modalGender').textContent = info.gender;
             
-            
+            const deleteUserButton = $id('deleteUser');
+            deleteUserButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    deleteUserFromList(currentUsers, $id('modalName').textContent);
+                    separateModal.hide();
+                })
+
             separateModal.show();
         });
 
