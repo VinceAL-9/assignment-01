@@ -89,19 +89,44 @@ function renderUsers(users, nameDisplay) {
         rowDiv.className = 'row mb-2';
         
         // add modal toggling to each row
-        const newModal = new bootstrap.Modal(document.getElementById('userDescriptionModal'));
+        const separateModal = new bootstrap.Modal(document.getElementById('userDescriptionModal'));
 
-        // Open modal on double-click
+        // Open modal on double-click, complete with user information
         rowDiv.addEventListener('dblclick', (event) => {
             event.preventDefault();
-            newModal.show();
+            
+            let info = {
+                "nameInitials": user.name.first.charAt(0) + user.name.last.charAt(0),
+                "completeName": user.name.title + " " + user.name.first + " " + user.name.last, 
+                "completeAddress": user.location.street.number + " " + user.location.street.name + ", " + user.location.city + ", " + user.location.state + ", " + user.location.country + ",. " + user.location.postcode,
+                "email": user.email,
+                "phoneNumber": user.phone,
+                "telephoneNumber": user.cell,
+                "dateOfBirth": user.dob.date,
+                "gender": capitalizeFirstLetter(user.gender)
+            }
+            
+            // Populate the modal with user information
+            $id('initials').textContent = info.nameInitials;
+            $id('modalName').textContent = info.completeName;
+            $id('modalAddress').textContent = info.completeAddress;
+            $id('modalEmail').textContent = info.email;
+            $id('modalPhone').textContent = info.phoneNumber;
+            $id('modalTelephone').textContent = info.telephoneNumber;
+            $id('modalDob').textContent = info.dateOfBirth;
+            $id('modalGender').textContent = info.gender;
+            
+            
+            separateModal.show();
         });
+
+        
 
         const nameCol = document.createElement('div');
         nameCol.className = 'col-md-3 text-center';
         const displayName = (nameDisplay === 'first_name') ? user.name.first : user.name.last;
         nameCol.textContent = displayName;
-
+    
         const genderCol = document.createElement('div');
         genderCol.className = 'col-md-3 text-center';
         genderCol.textContent = capitalizeFirstLetter(user.gender);
