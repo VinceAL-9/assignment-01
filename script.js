@@ -11,9 +11,6 @@ const timeout = 3000; // 3 seconds
 
 
 let currentUsers;  //  store fetched users for name switching functionality and deleting a user
-let newData; // store edited user data
-
-
 
 // Main event listeners
 amountInput.addEventListener('keypress', async (event) => {
@@ -60,15 +57,14 @@ async function generateUsers() {
     }
 }
 
-// delete a user from row at the click of a button
+// delete a user from row at the click of the delete user button
 function deleteUserFromList(list, user){
     const index = list.findIndex(u => u.name.title + " " + u.name.first + " " + u.name.last === user);
     if (index !== -1) {
         list.splice(index, 1);
-        renderUsers(list);
+        renderUsers(list, sortBySelect.value);
     }
 }
-
 
 // Fetch random users from API with error handling
 async function fetchRandomUsers(count) {
@@ -100,57 +96,45 @@ function renderUsers(users, nameDisplay) {
         const rowDiv = document.createElement('div');
         rowDiv.className = 'row mb-2';
         
+        function prefill(){
+            // Pre-fill edit modal fields
+            $id('editTitle').value = user.name.title;
+            $id('editFirstName').value = user.name.first;
+            $id('editLastName').value = user.name.last;
+            $id('editAddress').value = `${user.location.street.number} ${user.location.street.name}, ${user.location.city}, ${user.location.state}, ${user.location.country}, ${user.location.postcode}`;
+            $id('editCountry').value = user.location.country;
+            $id('editEmail').value = user.email;
+            $id('editPhone').value = user.phone;
+            $id('editTelephone').value = user.cell;
+            $id('editDob').value = user.dob.date;
+            $id('editGender').value = user.gender;
+            
+        }
+
         // add modal toggling to each row
         const separateModal = new bootstrap.Modal($id('userDescriptionModal'));
+        // modal to edit user information
+        const editUserModal = new bootstrap.Modal($id("editUserDescModal"));
 
-        // Open modal on double-click, complete with user information
+        // Open modal on double-click, complete with user information and edit functionality
         rowDiv.addEventListener('dblclick', (event) => {
-            letcurrentUser = user
             event.preventDefault();
             
-            let info = {
-                "nameInitials": user.name.first.charAt(0) + user.name.last.charAt(0),
-                "completeName": user.name.title + " " + user.name.first + " " + user.name.last, 
-                "completeAddress": user.location.street.number + " " + user.location.street.name + ", " + user.location.city + ", " + user.location.state + ", " + user.location.country + ",. " + user.location.postcode,
-                "email": user.email,
-                "phoneNumber": user.phone,
-                "telephoneNumber": user.cell,
-                "dateOfBirth": user.dob.date,
-                "gender": capitalizeFirstLetter(user.gender)
-            }
+            // Populate display modal
+            $id('initials').textContent = user.name.first.charAt(0) + user.name.last.charAt(0);
+            $id('modalName').textContent = user.name.title + " " + user.name.first + " " + user.name.last;
+            $id('modalAddress').textContent = user.location.fullAddress || (
+                user.location.street.number + " " + user.location.street.name + ", " +
+                user.location.city + ", " + user.location.state + ", " +
+                user.location.country + ", " + user.location.postcode
+            );
+            $id('modalEmail').textContent = user.email;
+            $id('modalPhone').textContent = user.phone;
+            $id('modalTelephone').textContent = user.cell;
+            $id('modalDob').textContent = user.dob.date;
+            $id('modalGender').textContent = capitalizeFirstLetter(user.gender);
             
-            // Populate the modal with user information
-            $id('initials').textContent = info.nameInitials;
-            $id('modalName').textContent = info.completeName;
-            $id('modalAddress').textContent = info.completeAddress;
-            $id('modalEmail').textContent = info.email;
-            $id('modalPhone').textContent = info.phoneNumber;
-            $id('modalTelephone').textContent = info.telephoneNumber;
-            $id('modalDob').textContent = info.dateOfBirth;
-            $id('modalGender').textContent = info.gender;
-            
-            const modifyUserButton = $id('modifyUser');
-            modifyUserButton.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    separateModal.hide();
-                    
-                    const editUserModal = new bootstrap.Modal($id("editUserDescModal"));
-                    editUserModal.show();
-                    
-                    const cancelButton = $id('cancel');
-                    cancelButton.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        editUserModal.hide();
-                        separateModal.show();
-                    })
-                    
-                    const saveButton = $id('save');
-                    saveButton.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        editUserModal.hide();
-
-                    })
-                })
+            // Buttons for the description modal
 
             const deleteUserButton = $id('deleteUser');
             deleteUserButton.addEventListener('click', (event) => {
@@ -158,10 +142,54 @@ function renderUsers(users, nameDisplay) {
                     deleteUserFromList(currentUsers, $id('modalName').textContent);
                     separateModal.hide();
                 })
+            
+            
+            const modifyUserButton = $id('modifyUser');
+            modifyUserButton.onclick = () => { // new button functionality to minimize code
+                separateModal.hide();
+                prefill();
+                editUserModal.show();
+            }
+
+            // Buttons for the edit modal
+            const cancelButton = $id('cancel');
+            cancelButton.onclick = () => {
+
+                $id('editTitle').value = null;
+                $id('editFirstName').value = null;
+                $id('editLastName').value = null;
+                $id('editAddress').value = null;
+                $id('editEmail').value = null;
+                $id('editPhone').value = null;
+                $id('editTelephone').value = null;
+                $id('editDob').value = null;
+                $id('editGender').value = null;
+        
+                
+                editUserModal.hide();
+                separateModal.show();
+            }
+
+            // save changes, leave as is for no new data
+            const saveButton = $id('save');
+            saveButton.onclick = () => {
+                if ($id('editTitle').value) user.name.title = $id('editTitle').value;
+                if ($id('editFirstName').value) user.name.first = $id('editFirstName').value;
+                if ($id('editLastName').value) user.name.last = $id('editLastName').value;
+                if ($id('editAddress').value) user.location.fullAddress = $id('editAddress').value;
+                if ($id('editCountry').value) user.location.country = $id('editCountry').value;
+                if ($id('editEmail').value) user.email = $id('editEmail').value;
+                if ($id('editPhone').value) user.phone = $id('editPhone').value;
+                if ($id('editTelephone').value) user.cell = $id('editTelephone').value;
+                if ($id('editDob').value) user.dob.date = $id('editDob').value;
+                if ($id('editGender').value) user.gender = $id('editGender').value;
+
+                renderUsers(currentUsers, sortBySelect.value);
+                editUserModal.hide();
+            };
+            
             separateModal.show();
         });
-
-        
 
         const nameCol = document.createElement('div');
         nameCol.className = 'col-md-3 text-center';
