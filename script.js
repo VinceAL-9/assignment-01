@@ -120,6 +120,14 @@ function renderUsers(users, nameDisplay) {
         rowDiv.addEventListener('dblclick', (event) => {
             event.preventDefault();
             
+
+            // prevent submit key from submitting the form
+            const form = $id('form');
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                return
+            })
+
             // Populate display modal
             $id('initials').textContent = user.name.first.charAt(0) + user.name.last.charAt(0);
             $id('modalName').textContent = user.name.title + " " + user.name.first + " " + user.name.last;
