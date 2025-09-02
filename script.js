@@ -119,14 +119,6 @@ function renderUsers(users, nameDisplay) {
         // Open modal on double-click, complete with user information and edit functionality
         rowDiv.addEventListener('dblclick', (event) => {
             event.preventDefault();
-            
-
-            // prevent submit key from submitting the form
-            const form = $id('form');
-            form.addEventListener('submit', (event) => {
-                event.preventDefault();
-                return
-            })
 
             // Populate display modal
             $id('initials').textContent = user.name.first.charAt(0) + user.name.last.charAt(0);
@@ -177,6 +169,16 @@ function renderUsers(users, nameDisplay) {
                 editUserModal.hide();
                 separateModal.show();
             }
+
+
+            
+            // prevent submit key from submitting the form
+            const forms = [$id('form1'), $id('form2'), $id('form3'), $id('form4'), $id('form5'), $id('form6'), $id('form7'), $id('form8'), $id('form9'), $id('form10')];
+            forms.forEach(form => {
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                return
+            })})
 
             // save changes, leave as is for no new data
             const saveButton = $id('save');
