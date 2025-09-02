@@ -121,7 +121,7 @@ function renderUsers(users, nameDisplay) {
             event.preventDefault();
 
             // Populate display modal
-            $id('initials').textContent = user.name.first.charAt(0) + user.name.last.charAt(0);
+            $id('modalImage').src = user.picture.large;
             $id('modalName').textContent = user.name.title + " " + user.name.first + " " + user.name.last;
             $id('modalAddress').textContent = user.location.fullAddress || (
                 user.location.street.number + " " + user.location.street.name + ", " +
