@@ -1,14 +1,12 @@
 const $id = (id) => document.getElementById(id);
 
 const amountInput = $id('amount_input');
-const sortBySelect = $id('sort_by');
+const nameSelect = $id('name_select');
 const bodyContainer = $id('body');
 
 const apiUrl = 'https://randomuser.me/api/';
 const maxUsers = 1000;
 const minUsers = 0;
-const timeout = 3000; // 3 seconds
-
 
 let currentUsers;  //  store fetched users for name switching functionality and deleting a user
 
@@ -19,22 +17,23 @@ amountInput.addEventListener('keypress', async (event) => {
         await generateUsers();
     }
 });
-sortBySelect.addEventListener('change', (event) => {
+nameSelect.addEventListener('change', (event) => {
+    event.preventDefault();
+    if (currentUsers === undefined) return;
     if (currentUsers.length > 0) {
-        event.preventDefault();
-        renderUsers(currentUsers, sortBySelect.value);
+        renderUsers(currentUsers, nameSelect.value);
     }
 });
 
 // Main function 
 async function generateUsers() {
     const count = Number(amountInput.value.trim());
-    const nameDisplay = sortBySelect.value;
+    const nameDisplay = nameSelect.value;
 
-    if (!validateInput(count)) return;
+    if (!checkInput(count)) return;
 
     if (count === 0) {
-        clearUserRows();
+        clearAllRows();
         // Show no users message
         const noUserDiv = document.createElement('div');
         noUserDiv.className = 'alert alert-info text-center';
@@ -42,11 +41,11 @@ async function generateUsers() {
         bodyContainer.parentElement.insertBefore(noUserDiv, bodyContainer);
         setTimeout(() => {
             noUserDiv.remove();
-        }, timeout)
+        }, 3000)
         return;
     }
 
-    clearUserRows();
+    clearAllRows();
 
     try {
         const users = await fetchRandomUsers(count);
@@ -62,7 +61,7 @@ function deleteUserFromList(list, user){
     const index = list.findIndex(u => u.name.title + " " + u.name.first + " " + u.name.last === user);
     if (index !== -1) {
         list.splice(index, 1);
-        renderUsers(list, sortBySelect.value);
+        renderUsers(list, nameSelect.value);
     }
 }
 
@@ -89,7 +88,7 @@ async function fetchRandomUsers(count) {
 }
 // Display users
 function renderUsers(users, nameDisplay) {
-    clearUserRows();  // Remove existing rows
+    clearAllRows();  // Remove existing rows
 
 
     users.forEach(user => {
@@ -194,7 +193,7 @@ function renderUsers(users, nameDisplay) {
                 if ($id('editDob').value) user.dob.date = $id('editDob').value;
                 if ($id('editGender').value) user.gender = $id('editGender').value;
 
-                renderUsers(currentUsers, sortBySelect.value);
+                renderUsers(currentUsers, nameSelect.value);
                 editUserModal.hide();
             };
             
@@ -234,7 +233,7 @@ function displayNewUsers(users, nameDisplay) {
 
 // Show error alert as a div element for three seconds
 function showError(message) {
-    clearUserRows();
+    clearAllRows();
 
     const errorDiv = document.createElement('div');
     errorDiv.className = 'alert alert-danger text-center';
@@ -242,11 +241,11 @@ function showError(message) {
     bodyContainer.parentElement.insertBefore(errorDiv, bodyContainer);
     setTimeout(() => {
             errorDiv.remove();
-        }, timeout)
+        }, 3000)
     return
 }
-// Validate user input amount
-function validateInput(amount) {
+// Check user input amount
+function checkInput(amount) {
     if (isNaN(amount) || amount === '') {
         showError('Please enter a valid number.');
         return false;
@@ -264,7 +263,7 @@ function capitalizeFirstLetter(string) {
 }
 
 // Clear previous user results rows except the header row
-function clearUserRows() {
+function clearAllRows() {
     // Remove all rows after the header row
     while (bodyContainer.children.length > 1) {
         bodyContainer.removeChild(bodyContainer.lastChild);
