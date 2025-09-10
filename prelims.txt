@@ -1,7 +1,0 @@
-When I double-click a row of a user, it will open a modal that displays the user’s information 
-(complete name with title, complete address, email, phone number, telephone number, date of birth/dob, gender) , 
-along with a picture of them.The modal will also contain functional delete and modify/edit buttons. 
-
-When I delete a user, it will remove them from the user rows ( 🗑️ ). 
-
-When I modify a user, the changes will also reflect in the user rows (✏️).
