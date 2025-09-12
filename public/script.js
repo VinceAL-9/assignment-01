@@ -239,7 +239,8 @@ function showError(message) {
     clearAllRows();
 
     const errorDiv = document.createElement('div');
-    errorDiv.className = 'alert alert-danger text-center';
+    errorDiv.className = 'text-center pb-3';
+    errorDiv.style = "color: red font-family: 'Orbitron', monospace; font-weight: 700; text-shadow: var(--text-glow); letter-spacing: 1px;";
     errorDiv.innerText = message;
     bodyContainer.parentElement.insertBefore(errorDiv, bodyContainer);
     setTimeout(() => {

@@ -5,6 +5,335 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="reset.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
+            
+            :root {
+                --cyber-red: #ff0040;
+                --cyber-red-dark: #cc0033;
+                --cyber-red-glow: #ff004080;
+                --cyber-black: #0a0a0a;
+                --cyber-gray: #1a1a1a;
+                --cyber-gray-light: #2a2a2a;
+                --cyber-accent: #00ffff;
+                --neon-glow: 0 0 20px var(--cyber-red), 0 0 40px var(--cyber-red), 0 0 60px var(--cyber-red);
+                --text-glow: 0 0 10px var(--cyber-red);
+            }
+
+            * {
+                scrollbar-width: thin;
+                scrollbar-color: var(--cyber-red) var(--cyber-black);
+            }
+
+            *::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            *::-webkit-scrollbar-track {
+                background: var(--cyber-black);
+            }
+
+            *::-webkit-scrollbar-thumb {
+                background-color: var(--cyber-red);
+                border-radius: 20px;
+                border: 2px solid var(--cyber-black);
+            }
+
+            body {
+                background: linear-gradient(135deg, var(--cyber-black) 0%, var(--cyber-gray) 50%, var(--cyber-black) 100%);
+                min-height: 100vh;
+                font-family: 'Rajdhani', sans-serif;
+                color: #ffffff;
+                position: relative;
+                overflow-x: hidden;
+            }
+
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: 
+                    radial-gradient(circle at 20% 20%, var(--cyber-red-glow) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 80%, var(--cyber-red-glow) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 60%, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
+                pointer-events: none;
+                z-index: -1;
+            }
+
+            .container {
+                position: relative;
+                z-index: 1;
+            }
+
+            /* Input Styling */
+            input[type="text"], input[type="email"], input[type="tel"], input[type="date"], select {
+                background: linear-gradient(145deg, var(--cyber-gray), var(--cyber-gray-light)) !important;
+                border: 2px solid var(--cyber-red) !important;
+                color: #ffffff !important;
+                font-family: 'Orbitron', monospace !important;
+                font-weight: 600 !important;
+                transition: all 0.3s ease !important;
+                box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5) !important;
+            }
+
+            input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, input[type="date"]:focus, select:focus {
+                box-shadow: var(--neon-glow), inset 0 0 20px rgba(0, 0, 0, 0.5) !important;
+                border-color: var(--cyber-accent) !important;
+                outline: none !important;
+            }
+
+            input::placeholder {
+                color: var(--cyber-red)!important;
+                font-style: italic;
+            }
+
+
+            /* Header Elements */
+            h1, h2, h5, h6 {
+                font-family: 'Orbitron', monospace;
+                font-weight: 700;
+                text-shadow: var(--text-glow);
+                letter-spacing: 1px;
+            }
+
+            h6 {
+                background: linear-gradient(145deg, var(--cyber-gray), var(--cyber-gray-light)) !important;
+                border: 2px solid var(--cyber-red) !important;
+                color: var(--cyber-red) !important;
+                font-weight: 900 !important;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            h6::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 0, 64, 0.2), transparent);
+                transition: left 0.5s ease;
+            }
+
+            h6:hover::before {
+                left: 100%;
+            }
+
+            /* Select Dropdown */
+            select {
+                cursor: pointer;
+                appearance: none;
+                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff0040' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+                background-repeat: no-repeat !important;
+                background-position: right 1rem center !important;
+                background-size: 1rem !important;
+            }
+
+            /* Modal Styling */
+            .modal-content {
+                background: linear-gradient(145deg, var(--cyber-gray), var(--cyber-black)) !important;
+                border: 2px solid var(--cyber-red) !important;
+                box-shadow: var(--neon-glow), 0 0 50px rgba(0, 0, 0, 0.8) !important;
+                backdrop-filter: blur(10px);
+            }
+
+            .modal-backdrop {
+                background-color: rgba(0, 0, 0, 0.8) !important;
+            }
+
+            /* Profile Circle */
+            #initials {
+                background: linear-gradient(145deg, var(--cyber-red), var(--cyber-gray-light)) !important;
+                border: 3px solid var(--cyber-red) !important;
+                box-shadow: var(--neon-glow), inset 0 0 20px rgba(0, 0, 0, 0.3) !important;
+                color: var(--cyber-black) !important;
+                font-family: 'Orbitron', monospace !important;
+                font-weight: 900 !important;
+                animation: pulse 2s infinite;
+            }
+
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+
+            /* Modal Information Sections */
+            .modal-body > div {
+                background: linear-gradient(145deg, var(--cyber-gray-light), var(--cyber-gray)) !important;
+                border: 1px solid var(--cyber-red) !important;
+                transition: all 0.3s ease !important;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .modal-body > div::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 0, 64, 0.1), transparent);
+                transition: left 0.6s ease;
+            }
+
+            .modal-body > div:hover::before {
+                left: 100%;
+            }
+
+            .modal-body > div:hover {
+                border-color: var(--cyber-accent) !important;
+                box-shadow: 0 0 20px var(--cyber-red-glow) !important;
+            }
+
+            .modal-body h5 {
+                color: var(--cyber-red) !important;
+                font-family: 'Orbitron', monospace !important;
+                font-weight: 700 !important;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .modal-body p {
+                color: #ffffff !important;
+                font-family: 'Rajdhani', sans-serif !important;
+                font-weight: 600 !important;
+                font-size: 1.1rem;
+            }
+
+            /* Edit Modal Header */
+            .modal-header > div {
+                background: linear-gradient(145deg, #ffffff, #e0e0e0) !important;
+                border: 2px solid var(--cyber-red) !important;
+                box-shadow: var(--neon-glow) !important;
+            }
+
+            .modal-header h1 {
+                color: var(--cyber-black) !important;
+                margin: 0 !important;
+            }
+
+            /* Button Styling */
+            .btn {
+                font-family: 'Orbitron', monospace !important;
+                font-weight: 700 !important;
+                text-transform: uppercase !important;
+                letter-spacing: 1px !important;
+                border: 2px solid transparent !important;
+                transition: all 0.3s ease !important;
+                position: relative !important;
+                overflow: hidden !important;
+            }
+
+            .btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.4s ease;
+            }
+
+            .btn:hover::before {
+                left: 100%;
+            }
+
+            .btn-warning {
+                background: linear-gradient(145deg, #ffa500, #ff8c00) !important;
+                border-color: #ff8c00 !important;
+                color: var(--cyber-black) !important;
+            }
+
+            .btn-warning:hover {
+                background: linear-gradient(145deg, #ff8c00, #ffa500) !important;
+                box-shadow: 0 0 20px rgba(255, 165, 0, 0.5) !important;
+                transform: translateY(-2px);
+            }
+
+            .btn-danger {
+                background: linear-gradient(145deg, var(--cyber-red), var(--cyber-red-dark)) !important;
+                border-color: var(--cyber-red) !important;
+                color: #ffffff !important;
+            }
+
+            .btn-danger:hover {
+                background: linear-gradient(145deg, var(--cyber-red-dark), var(--cyber-red)) !important;
+                box-shadow: var(--neon-glow) !important;
+                transform: translateY(-2px);
+            }
+
+            .btn-primary {
+                background: linear-gradient(145deg, var(--cyber-accent), #00cccc) !important;
+                border-color: var(--cyber-accent) !important;
+                color: var(--cyber-black) !important;
+            }
+
+            .btn-primary:hover {
+                background: linear-gradient(145deg, #00cccc, var(--cyber-accent)) !important;
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.5) !important;
+                transform: translateY(-2px);
+            }
+
+            /* Futuristic Grid Lines */
+            .row::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                
+                opacity: 0.3;
+            }
+
+            .row::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 1px;
+                
+                opacity: 0.3;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .modal-dialog {
+                    max-width: 95% !important;
+                }
+                
+                h6, input, select {
+                    width: 12rem !important;
+                    padding: 0.5rem 1rem !important;
+                }
+            }
+
+            /* Subtle animation for the main container */
+            .container {
+                animation: fadeInUp 0.8s ease-out;
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
     </head>
     <body>
         <div class="d-flex justify-content-center"> <!-- Center the Container -->
@@ -16,21 +345,21 @@
         </div>
         <div class="container" id="body">
             <div class="row">
-                <div class="col-md-3 d-flex justify-content-center">
+                <div class="col-md-3 d-flex justify-content-center align-items-center">
                     <form>
-                        <select style='background-color: rgb(243, 243, 243); width: 15rem; padding: 0.75rem 2rem;' class='text-center fw-semibold form-control form-control-secondary border rounded-pill' id="name_select">
-                            <option value="first_name">First Name</option>
-                            <option value="last_name">Last Name</option>
+                        <select style='width: 15rem; padding: 0.75rem 2rem;' class='text-center fw-semibold form-control form-control-secondary border rounded-pill' id="name_select">
+                            <option  style="background-color: #cc0033;" value="first_name">First Name</option>
+                            <option style="background-color: #cc0033;"="last_name">Last Name</option>
                         </select>
                     </form>
                 </div>
-                <div class="col-md-3 d-flex justify-content-center" id="gender">
+                <div class="col-md-3 d-flex justify-content-center align-items-center" id="gender">
                     <h6 style='background-color: rgb(243, 243, 243); width: 15rem; padding: 0.75rem 2rem;' class='text-center border rounded-pill'>Gender</h6>
                 </div>
-                <div class="col-md-3 d-flex justify-content-center" id="email">
-                    <h6 style='background-color: rgb(243, 243, 243); width: 15rem; padding: 0.75rem 2rem;' class='text-center border rounded-pill'>Email Address</h6>
+                <div class="col-md-3 d-flex justify-content-center align-items-center" id="email">
+                    <h6 style='background-color: rgb(243, 243, 243); width: 15rem; padding: 0.75rem 2rem;' class='text-center border rounded-pill'>Email</h6>
                 </div>
-                <div class="col-md-3 d-flex justify-content-center" id="country">
+                <div class="col-md-3 d-flex justify-content-center align-items-center" id="country">
                     <h6 style='background-color: rgb(243, 243, 243); width: 15rem; padding: 0.75rem 2rem;' class='text-center border rounded-pill'>Country</h6>
                 </div>
             </div>
@@ -45,7 +374,7 @@
                     <div class="modal-header border-0 d-flex justify-content-center bg-transparent">
                         <!-- Circle with initials to simulate pfp image -->
                         <div class="d-flex align-items-center justify-content-center fw-bold"
-                            style="width: 90px; height: 90px; background: white; color: black; font-size: 28px; border-radius: 50%;" id="initials">
+                            style="width: 90px; height: 90px; background-color: rgb(255, 0, 0); color: black; font-size: 28px; border-radius: 50%;" id="initials">
                         </div>
                     </div>
 
@@ -115,7 +444,7 @@
         <!-- Modal for Modifying User Information -->
         <div class="modal fade" id="editUserDescModal" tabindex="-1" aria-labelledby="editUserDescModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;">
-                <div class="modal-content" style="background-color: gray; border-radius: 20px; padding: 30px;">
+                <div class="modal-content" style="background-color: rgb(255, 255, 255); border-radius: 20px; padding: 30px;">
 
                     <!-- Header -->
                     <div class="modal-header border-0 d-flex justify-content-center bg-transparent">
@@ -207,8 +536,8 @@
                             style="background: #f8f8f8; max-width: fit-content;">
                             <form style="width: 100%;" id="form10">
                                 <select style="width: 100%; border: none;"id="editGender" name="editGender">
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option style="color: rgb(0, 0, 0)" value="male">Male</option>
+                                    <option style="color: rgb(0, 0, 0)" value="female">Female</option>
                                 </select>
                             </form>
                         </div>
