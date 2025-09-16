@@ -14,6 +14,13 @@ const minUsers = 0;
 let currentUsers;  //  store fetched users for name switching functionality and deleting a user
 
 // Main event listeners
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const url = await fetch(apiUrl);
+    const data = await url.json();
+    displayNewUsers(data.results, nameSelect.value);
+});
+
 amountInput.addEventListener('keypress', async (event) => {
     if (event.key === 'Enter') {
         event.preventDefault();
